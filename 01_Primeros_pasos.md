@@ -1,8 +1,8 @@
-# Ejercicio 1: Operaciones y Mensajes
+# Ejemplo 1: Operaciones y Mensajes
 
-Para este ejercicio, solo necesitas un **Button** en tu formulario. Haz doble clic en él y pega el siguiente código:
+Para este ejemplo, solo necesitas un **Button** en tu formulario. Haz doble clic en él y pega el siguiente código:
 
-```VB.Net
+```vbnet
         ' --- 1. DECLARACIÓN Y MENSAJES SIMPLES ---
         Dim numero1 As Integer = 10
         Dim numero2 As Integer = 2
@@ -59,9 +59,9 @@ Para este ejercicio, solo necesitas un **Button** en tu formulario. Haz doble cl
 
 * **MessageBox:** Aprendiste a pasar de un mensaje simple a uno con **Título**, **Botones** (`MessageBoxButtons`) e **Iconos** (`MessageBoxIcon`).
 
-# Ejercicio 2: Ficha de personaje
+# Ejemplo 2: Ficha de personaje
 
-Este ejercicio crea una "Ficha de Personaje". Usaremos el **TextBox** para el nombre y definiremos el resto de los datos directamente en el código para evitar funciones de conversión.
+Este ejemplo crea una "Ficha de Personaje". Usaremos el **TextBox** para el nombre y definiremos el resto de los datos directamente en el código para evitar funciones de conversión.
 
 ### 1. Elementos necesarios
 
@@ -78,7 +78,7 @@ Coloca estos controles en tu formulario:
 
 Haz doble clic en el botón y pega este código:
 
-```VB.Net
+```vbnet
         ' --- DECLARACIÓN DE VARIABLES ---
 
         ' String: Obtiene el texto directamente del TextBox
@@ -122,9 +122,9 @@ Haz doble clic en el botón y pega este código:
 
 * **`Byte`**: Para números muy pequeños (ahorra memoria).
 
-# Ejercicio 3: Simulador de Validación de Seguridad
+# Ejemplo 3: Simulador de Validación de Seguridad
 
-Para este ejercicio, usaremos variables con valores fijos (hardcoded) para enfocarnos puramente en la lógica de los `If`. Solo necesitas un **Button**.
+Para este ejemplo, usaremos variables con valores fijos (hardcoded) para enfocarnos puramente en la lógica de los `If`. Solo necesitas un **Button**.
 
 * * *
 
@@ -132,7 +132,7 @@ Para este ejercicio, usaremos variables con valores fijos (hardcoded) para enfoc
 
 Copia este código dentro del evento `Click` de tu botón:
 
-```VB.Net
+```vbnet
         ' --- 1. DECLARACIÓN DE DATOS ---
         Dim usuario As String = "Admin"
         Dim nivelAcceso As Integer = 5
@@ -162,7 +162,7 @@ Copia este código dentro del evento `Click` de tu botón:
 
         ' Verificación de Estado (Boolean)
         If cuentaActiva = True Then
-            MessageBox.Show("La cuenta está vigente.", "Estado", MessageBoxButtons.OK, MessageBoxIcon.Check)
+            MessageBox.Show("La cuenta está vigente.", "Estado", MessageBoxButtons.OK, MessageBoxIcon.Hand)
         End If
 
         ' --- 3. IF CON STRING Y MESSAGEBOX COMPUESTO ---
@@ -210,6 +210,13 @@ Sentencias condicionales sugeridas:
 
 * If edad >= 18 Then
   
+  ```vbnet
+  Dim edad As Integer = 21
+  If edad >= 18 Then
+      MessageBox.Show("Puedes votar")
+  End If
+  ```
+  
   
 
 ## Ejercicio 2: Número positivo o negativo
@@ -225,8 +232,15 @@ Controles sugeridos:
 Sentencias condicionales sugeridas:
 
 * If numero > 0 Then
-
-
+  
+  ```vbnet
+  Dim numero As Integer = 20
+  If numero > 0 Then
+      MessageBox.Show("Es positivo")
+  End If
+  ```
+  
+  
 
 ## Ejercicio 3: Verificación de contraseña
 
@@ -241,8 +255,13 @@ Controles sugeridos:
 Sentencias condicionales sugeridas:
 
 * If contrasena = "1234" Then
-
-
+  
+  ```vbnet
+  Dim contraseña As String = "1234"
+  If contraseña = "1234" Then
+      MessageBox.Show("Acceso concedido")
+  End If
+  ```
 
 ## Ejercicio 4: Verificación de número par
 
@@ -257,8 +276,13 @@ Controles sugeridos:
 Sentencias condicionales sugeridas:
 
 * If numero Mod 2 = 0 Then
-
-
+  
+  ```vbnet
+  Dim numero As Integer = 10
+  If numero Mod 2 = 0 Then
+      MessageBox.Show("Es par")
+  End If
+  ```
 
 ## Ejercicio 5: Calificación aprobatoria
 
@@ -273,31 +297,36 @@ Controles sugeridos:
 Sentencias condicionales sugeridas:
 
 * If nota > 60 Then
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+  ```vbnet
+  Dim calificacion As Integer = 61
+  If calificacion > 60 Then
+      MessageBox.Show("Aprobado")
+  End If
+  ```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
