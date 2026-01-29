@@ -8,7 +8,7 @@
 
 * **Código:**
 
-```visual-basic
+```vbnet
 Dim usuarioValido As String = "admin"
 Dim passValida As String = "1234"
 
@@ -28,7 +28,7 @@ End If
 
 * **Código:**
 
-```visual-basic
+```vbnet
 Dim numero As Integer = CInt(txtValor.Text)
 
 ' Uso de operador lógico OR para detectar extremos
@@ -49,7 +49,7 @@ End If
 
 * **Código:**
 
-```visual-basic
+```vbnet
 ' Variable booleana a nivel de formulario
 Dim esEncendido As Boolean = False
 
@@ -72,7 +72,7 @@ End Sub
 
 * **Código:**
 
-```visual-basic
+```vbnet
 Dim categoria As String = txtCategoria.Text.ToUpper()
 
 Select Case categoria
@@ -99,7 +99,7 @@ End Select
 
 * **Código:**
 
-```visual-basic
+```vbnet
 ' Declaración de la Subrutina
 Sub LimpiarCampos()
     txt1.Text = ""
@@ -122,7 +122,7 @@ End Sub
 
 * **Código:**
 
-```visual-basic
+```vbnet
 ' Declaración de la Función
 Function CalcularTotalConImpuesto(ByVal monto As Double) As Double
     Const TASA_IMPUESTO As Double = 0.12 ' 12%
@@ -149,7 +149,7 @@ End Sub
 
 * **Código en Módulo (MdlGeneral.vb):**
 
-```visual-basic
+```vbnet
 Module MdlGeneral
     ' Variable accesible desde todo el proyecto
     Public UsuarioActual As String = ""
@@ -163,10 +163,12 @@ End Module
 
 * **Código en Formulario (Uso del Módulo):**
 
-```visual-basic
+```vbnet
 Private Sub btnGuardar_Click(...) Handles btnGuardar.Click
     ' Guardamos en la variable global del módulo
     MdlGeneral.UsuarioActual = txtUsuario.Text
     MsgBox("Bienvenido " & MdlGeneral.UsuarioActual)
 End Sub
 ```
+
+
