@@ -1,6 +1,6 @@
 # Parte 1: Sentencias Condicionales
 
-#### Ejercicio 1: Acceso al Sistema (If...Then...Else con Operador `And`)
+### Ejercicio 1: Acceso al Sistema (If...Then...Else con Operador `And`)
 
 * **Descripción:** Valida dos condiciones simultáneas (Usuario y Contraseña) para permitir el acceso.
 
@@ -20,7 +20,7 @@ Else
 End If
 ```
 
-#### Ejercicio 2: Validación de Rango (If...ElseIf con Operador `Or`)
+### Ejercicio 2: Validación de Rango (If...ElseIf con Operador `Or`)
 
 * **Descripción:** Verifica si un número está fuera de un rango permitido (menor a 0 o mayor a 100).
 
@@ -41,7 +41,7 @@ Else
 End If
 ```
 
-#### Ejercicio 3: Estado de Interruptor (Variable Booleana + IIf)
+### Ejercicio 3: Estado de Interruptor (Variable Booleana + IIf)
 
 * **Descripción:** Cambia el texto de una etiqueta basándose en el estado de una variable booleana (bandera), alternando entre "Encendido" y "Apagado".
 
@@ -64,7 +64,7 @@ Private Sub btnSwitch_Click(...) Handles btnSwitch.Click
 End Sub
 ```
 
-#### Ejercicio 4: Categoría de Cliente (Select Case)
+### Ejercicio 4: Categoría de Cliente (Select Case)
 
 * **Descripción:** Determina el descuento basado en una letra de categoría (A, B, C).
 
@@ -91,7 +91,7 @@ End Select
 
 # Parte 2: Subrutinas y Funciones
 
-#### Ejercicio 5: Limpieza de Formulario (Subrutina)
+### Ejercicio 5: Limpieza de Formulario (Subrutina)
 
 * **Descripción:** Una subrutina que se llama desde un botón para limpiar múltiples campos de texto a la vez (reutilización de código de mantenimiento).
 
@@ -114,7 +114,7 @@ Private Sub btnLimpiar_Click(...) Handles btnLimpiar.Click
 End Sub
 ```
 
-#### Ejercicio 6: Calculadora de IVA (Función)
+### Ejercicio 6: Calculadora de IVA (Función)
 
 * **Descripción:** Una función que recibe un monto, calcula el impuesto y devuelve el total.
 
@@ -141,7 +141,7 @@ End Sub
 
 # Parte 3: Módulos
 
-#### Ejercicio 7: Variables Globales y Funciones Compartidas (Module)
+### Ejercicio 7: Variables Globales y Funciones Compartidas (Module)
 
 * **Descripción:** Crear un módulo aparte para almacenar una variable que sea accesible desde cualquier formulario del proyecto (ej. Nombre de Usuario Logueado) y una función matemática general.
 
@@ -170,5 +170,3 @@ Private Sub btnGuardar_Click(...) Handles btnGuardar.Click
     MsgBox("Bienvenido " & MdlGeneral.UsuarioActual)
 End Sub
 ```
-
-
