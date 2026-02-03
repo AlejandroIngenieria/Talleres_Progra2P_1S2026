@@ -9,10 +9,13 @@
 * **Código:**
 
 ```vbnet
-Dim usuarioValido As String = "admin"
-Dim passValida As String = "1234"
+Dim usuarioValido = "admin"
+Dim passValida = "1234"
 
 ' Uso de operador lógico AND
+' AND permitirá el acceso solo si ambas condiciones son verdaderas
+' If se ejecuta si la condición es verdadera
+' Else se ejecuta si ninguna de las condiciones anteriores se cumple
 If txtUsuario.Text = usuarioValido And txtPass.Text = passValida Then
     MsgBox("Acceso Concedido")
 Else
@@ -29,9 +32,22 @@ End If
 * **Código:**
 
 ```vbnet
+' Conversión de tipos de datos
+' CInt convierte el texto ingresado a un número entero
+' CDbl convertiría a número decimal
+' CDec convertiría a número decimal de mayor precisión
+' CShort convertiría a número entero corto
+' CStr convertiría a cadena de texto
+' CBool convertiría a valor booleano (True/False)
+' CDate convertiría a valor de fecha y hora
+' CByte convertiría a número entero byte
 Dim numero As Integer = CInt(txtValor.Text)
 
 ' Uso de operador lógico OR para detectar extremos
+' OR permitirá la ejecución si al menos una de las condiciones es verdadera
+' AND solo permitirá la ejecución si ambas condiciones son verdaderas
+' If se ejecuta si la condición es verdadera
+' Else se ejecuta si ninguna de las condiciones anteriores se cumple
 If numero < 0 Or numero > 100 Then
     MsgBox("Error: El valor está fuera del rango permitido (0-100).")
 ElseIf numero >= 0 And numero <= 50 Then
@@ -49,19 +65,22 @@ End If
 
 * **Código:**
 
-```vbnet
-' Variable booleana a nivel de formulario
+Declaramos variable fuera del boton pero dentro de la clase por lo que la variable se podra reutilizar en las metodos dentro de la clase
+
+```visual-basic
+' Al declarar la variable fuera del evento, se mantiene su valor entre clics
+' Cuando esta en el formulario dicha variable se puede acceder desde cualquier evento del mismo formulario
 Dim esEncendido As Boolean = False
+```
 
-Private Sub btnSwitch_Click(...) Handles btnSwitch.Click
-    esEncendido = Not esEncendido ' Invierte el valor booleano
+Codigo del boton
 
-    ' Uso de IIf para asignar texto según el booleano
-    lblEstado.Text = IIf(esEncendido, "Sistema ENCENDIDO", "Sistema APAGADO")
+```vbnet
+' NOT: Invierte el valor de una condición booleana de True a False o de False a True
+esEncendido = Not esEncendido ' Invierte el valor booleano
 
-    ' Cambio de color opcional usando la misma lógica
-    lblEstado.ForeColor = IIf(esEncendido, Color.Green, Color.Red)
-End Sub
+' Uso de IIf para asignar texto según el booleano
+lblEstado.Text = IIf(esEncendido, "Sistema ENCENDIDO", "Sistema APAGADO")
 ```
 
 ### Ejercicio 4: Categoría de Cliente (Select Case)
@@ -73,8 +92,15 @@ End Sub
 * **Código:**
 
 ```vbnet
+' Text tiene sus propias propiedades y métodos
+' Algunas de las más comunes son:
+' ToUpper convierte el texto a mayúsculas
+' ToLower convierte el texto a minúsculas
+' Trim elimina espacios en blanco al inicio y al final del texto
+' Length devuelve la longitud del texto
 Dim categoria As String = txtCategoria.Text.ToUpper()
 
+' El select case evalúa una variable contra múltiples casos posibles
 Select Case categoria
     Case "A"
         MsgBox("Cliente VIP: 20% Descuento")
@@ -99,7 +125,9 @@ End Select
 
 * **Código:**
 
-```vbnet
+Codigo de la subrutina
+
+```visual-basic
 ' Declaración de la Subrutina
 Sub LimpiarCampos()
     txt1.Text = ""
@@ -107,11 +135,13 @@ Sub LimpiarCampos()
     txt3.Text = ""
     txt1.Focus()
 End Sub
+```
 
+Codigo del boton
+
+```vbnet
 ' Llamada desde el botón
-Private Sub btnLimpiar_Click(...) Handles btnLimpiar.Click
     LimpiarCampos()
-End Sub
 ```
 
 ### Ejercicio 6: Calculadora de IVA (Función)
@@ -122,19 +152,24 @@ End Sub
 
 * **Código:**
 
-```vbnet
+Codigo de la función
+
+```visual-basic
 ' Declaración de la Función
 Function CalcularTotalConImpuesto(ByVal monto As Double) As Double
     Const TASA_IMPUESTO As Double = 0.12 ' 12%
     Return monto * (1 + TASA_IMPUESTO)
 End Function
+```
 
-' Llamada y uso del valor devuelto
-Private Sub btnCalcularTotal_Click(...) Handles btnCalcularTotal.Click
-    Dim subtotal As Double = CDbl(txtSubtotal.Text)
-    Dim total As Double = CalcularTotalConImpuesto(subtotal)
-    lblTotal.Text = "Total a pagar: " & total.ToString("C")
-End Sub
+Codigo del boton
+
+```vbnet
+' Llamada a la función que se guarda en la variable total
+Dim total = CalcularTotalConImpuesto(subtotal)
+' Mostrar el resultado en la etiqueta lblTotal
+' total.ToString("C") formatea el número como moneda según la configuración regional
+lblTotal.Text = "Total a pagar: " & total.ToString("C")
 ```
 
 * * *
@@ -161,14 +196,12 @@ Module MdlGeneral
 End Module
 ```
 
-* **Código en Formulario (Uso del Módulo):**
+* **Código del boton en el Formulario (Uso del Módulo):**
 
 ```vbnet
-Private Sub btnGuardar_Click(...) Handles btnGuardar.Click
-    ' Guardamos en la variable global del módulo
-    MdlGeneral.UsuarioActual = txtUsuario.Text
-    MsgBox("Bienvenido " & MdlGeneral.UsuarioActual)
-End Sub
+' Guardamos en la variable global del módulo
+UsuarioActual = txtGuardarUsuario.Text
+MsgBox("Bienvenido " & UsuarioActual)
 ```
 
 # Enunciado
@@ -483,3 +516,5 @@ Public Class Form2
     End Sub
 End Class
 ```
+
+
