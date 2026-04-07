@@ -25,21 +25,13 @@ Se han agregado **comentarios educativos detallados** a tu proyecto de MySQL con
 
 ### Archivos Modificados (3)
 
-| Archivo | Cambios | Líneas |
-|---------|---------|--------|
-| **AdminMenu.vb** | CRUD completo comentado | ~250 líneas |
-| **LoginForm.vb** | Autenticación comentada | ~50 líneas |
-| **RegisterForm.vb** | Validación comentada | ~70 líneas |
+| Archivo             | Cambios                 | Líneas      |
+| ------------------- | ----------------------- | ----------- |
+| **AdminMenu.vb**    | CRUD completo comentado | ~250 líneas |
+| **LoginForm.vb**    | Autenticación comentada | ~50 líneas  |
+| **RegisterForm.vb** | Validación comentada    | ~70 líneas  |
 
-### Recursos Creados (1 archivo MD consolidado)
-
-Este archivo contiene toda la información que antes estaba en:
-- COMIENZA_AQUI.txt
-- GUIA_MYSQL_VBNET.txt
-- PATRONES_COMUNES.txt
-- BUENOS_VS_MALOS_PATRONES.txt
-- GLOSARIO.txt
-- Y más...
+# 
 
 ---
 
@@ -73,6 +65,7 @@ End Using
 ```
 
 **Ventajas:**
+
 - ✓ No olvidas cerrar la conexión
 - ✓ Libera recursos automáticamente
 - ✓ Código más limpio y seguro
@@ -98,12 +91,12 @@ flowchart TD
 
 #### Componentes clave
 
-| Componente | Función |
-|-----------|---------|
-| **MySqlDataAdapter** | Puente BD ↔ Aplicación |
-| **DataTable** | Tabla temporal en memoria |
+| Componente           | Función                         |
+| -------------------- | ------------------------------- |
+| **MySqlDataAdapter** | Puente BD ↔ Aplicación          |
+| **DataTable**        | Tabla temporal en memoria       |
 | **adapter.Fill(dt)** | Ejecuta query y llena DataTable |
-| **DataGridView** | Control para mostrar datos |
+| **DataGridView**     | Control para mostrar datos      |
 
 #### Ejemplo: Listar todos los animales
 
@@ -111,13 +104,13 @@ flowchart TD
 Using conn = BaseDatos.ObtenerConexion()
     ' 1. Crear el adaptador con la consulta SELECT
     Dim adapter As New MySqlDataAdapter("SELECT * FROM animales", conn)
-    
+
     ' 2. Crear una tabla temporal en memoria
     Dim dt As New DataTable()
-    
+
     ' 3. Ejecutar la consulta y llenar la tabla
     adapter.Fill(dt)
-    
+
     ' 4. Mostrar en el DataGridView
     dgvAnimales.DataSource = dt
 End Using
@@ -149,12 +142,12 @@ flowchart LR
 
 #### Componentes clave
 
-| Componente | Función |
-|-----------|---------|
-| **MySqlCommand** | Prepara el comando SQL |
-| **Parameters.AddWithValue()** | Asigna valores (SEGURO) |
-| **conn.Open()** | Abre la conexión |
-| **ExecuteNonQuery()** | Ejecuta INSERT/UPDATE/DELETE |
+| Componente                    | Función                      |
+| ----------------------------- | ---------------------------- |
+| **MySqlCommand**              | Prepara el comando SQL       |
+| **Parameters.AddWithValue()** | Asigna valores (SEGURO)      |
+| **conn.Open()**               | Abre la conexión             |
+| **ExecuteNonQuery()**         | Ejecuta INSERT/UPDATE/DELETE |
 
 #### Ejemplo: Agregar un nuevo animal
 
@@ -162,22 +155,22 @@ flowchart LR
 Using conn = BaseDatos.ObtenerConexion
     ' Query con parámetros (no concatenación)
     Dim query = "INSERT INTO animales (nombre, especie, precio_mantenimiento, salud_puntos) VALUES (@n, @e, @p, @s)"
-    
+
     ' Crear comando
     Dim cmd As New MySqlCommand(query, conn)
-    
+
     ' Agregar parámetros (SEGURO contra SQL Injection)
     cmd.Parameters.AddWithValue("@n", txtNombre.Text)      ' nombre
     cmd.Parameters.AddWithValue("@e", txtEspecie.Text)     ' especie
     cmd.Parameters.AddWithValue("@p", Decimal.Parse(txtPrecio.Text))  ' precio
     cmd.Parameters.AddWithValue("@s", Integer.Parse(txtSalud.Text))   ' salud
-    
+
     ' Abrir conexión
     conn.Open()
-    
+
     ' Ejecutar INSERT
     cmd.ExecuteNonQuery()
-    
+
     ' Refrescar interfaz
     ActualizarGridAnimales()
 End Using
@@ -229,20 +222,20 @@ flowchart LR
 If dgvAnimales.SelectedRows.Count > 0 Then
     ' Obtener el ID del registro seleccionado
     Dim id As Integer = dgvAnimales.SelectedRows(0).Cells("id_animal").Value
-    
+
     Using conn = BaseDatos.ObtenerConexion()
         ' Query UPDATE con WHERE (¡MUY IMPORTANTE!)
         Dim query = "UPDATE animales SET nombre=@n, especie=@e WHERE id_animal=@id"
         Dim cmd As New MySqlCommand(query, conn)
-        
+
         ' Parámetros
         cmd.Parameters.AddWithValue("@n", txtNombre.Text)
         cmd.Parameters.AddWithValue("@e", txtEspecie.Text)
         cmd.Parameters.AddWithValue("@id", id)  ' Identificar cuál actualizar
-        
+
         conn.Open()
         cmd.ExecuteNonQuery()
-        
+
         ' Refrescar
         ActualizarGridAnimales()
     End Using
@@ -275,15 +268,15 @@ Dim query = "UPDATE animales SET nombre=@n WHERE id_animal=@id"
 ```visualbasic
 If dgvAnimales.SelectedRows.Count > 0 Then
     Dim id As Integer = dgvAnimales.SelectedRows(0).Cells("id_animal").Value
-    
+
     Using conn = BaseDatos.ObtenerConexion()
         ' DELETE SIEMPRE con WHERE
         Dim cmd As New MySqlCommand("DELETE FROM animales WHERE id_animal=@id", conn)
         cmd.Parameters.AddWithValue("@id", id)
-        
+
         conn.Open()
         cmd.ExecuteNonQuery()
-        
+
         ActualizarGridAnimales()
     End Using
 End If
@@ -487,12 +480,12 @@ End Using
 
 #### Comparativa
 
-| Método | Uso | Devuelve |
-|--------|-----|----------|
-| **ExecuteNonQuery()** | INSERT, UPDATE, DELETE | Filas afectadas |
-| **ExecuteScalar()** | SELECT (1 valor) | Ese valor o Nothing |
-| **ExecuteReader()** | SELECT (múltiples) | DataReader |
-| **DataAdapter.Fill()** | SELECT (tabla) | DataTable |
+| Método                 | Uso                    | Devuelve            |
+| ---------------------- | ---------------------- | ------------------- |
+| **ExecuteNonQuery()**  | INSERT, UPDATE, DELETE | Filas afectadas     |
+| **ExecuteScalar()**    | SELECT (1 valor)       | Ese valor o Nothing |
+| **ExecuteReader()**    | SELECT (múltiples)     | DataReader          |
+| **DataAdapter.Fill()** | SELECT (tabla)         | DataTable           |
 
 ---
 
@@ -602,34 +595,34 @@ Private Sub btnGuardar_Click(sender As Object, e As EventArgs)
         MessageBox.Show("El nombre es obligatorio")
         Return
     End If
-    
+
     ' 2. Validar capacidad
     If totalUsuarios >= 5 Then
         MessageBox.Show("Capacidad completa")
         Return
     End If
-    
+
     ' 3. Crear conexión
     Using conn = BaseDatos.ObtenerConexion()
         ' 4. Crear comando SQL
         Dim query = "INSERT INTO personal_zoo ..."
         Dim cmd As New MySqlCommand(query, conn)
-        
+
         ' 5. Agregar parámetros
         cmd.Parameters.AddWithValue("@u", txtUsuario.Text)
-        
+
         ' 6. Abrir conexión
         conn.Open()
-        
+
         ' 7. Ejecutar
         cmd.ExecuteNonQuery()
-        
+
         ' 8. Cerrar (automático por Using)
     End Using
-    
+
     ' 9. Refrescar interfaz
     ActualizarGrid()
-    
+
     ' 10. Mostrar confirmación
     MessageBox.Show("Guardado exitosamente")
 End Sub
@@ -734,6 +727,7 @@ End If
 **Lee primero:** Encabezados y tablas de contenidos de esta guía
 
 **Aprenderás:**
+
 - Qué archivos se modificaron
 - Qué conceptos se enseñan
 - Cómo estructurar tu aprendizaje
@@ -745,6 +739,7 @@ End If
 **Lee:** Las secciones 1-7 de esta guía
 
 **Aprenderás:**
+
 - Cómo conectarse a MySQL
 - Qué es SELECT, INSERT, UPDATE, DELETE
 - Qué es Using y parámetros
@@ -757,11 +752,13 @@ End If
 **Archivo:** AdminMenu.vb → Función: `ActualizarGridAnimales()`
 
 **Aprenderás:**
+
 - Qué es MySqlDataAdapter
 - Qué es DataTable
 - Cómo llenar un DataGridView
 
 **Practica:**
+
 ```visualbasic
 ' Crea un nuevo formulario
 ' Copia el código de ActualizarGridAnimales()
@@ -775,12 +772,14 @@ End If
 **Archivo:** AdminMenu.vb → Función: `btnAgregar_Click()`
 
 **Aprenderás:**
+
 - Qué son parámetros (@nombre)
 - Cómo usar ExecuteNonQuery()
 - Por qué no concatenar strings
 - Cómo refrescar la interfaz
 
 **Practica:**
+
 ```visualbasic
 ' Crea un botón "Agregar"
 ' Copia el código de btnAgregar_Click()
@@ -795,11 +794,13 @@ End If
 **Archivo:** AdminMenu.vb → Función: `btnModificarA_Click()`
 
 **Aprenderás:**
+
 - Cómo obtener el ID de una fila seleccionada
 - Cómo usar UPDATE con WHERE
 - Por qué WHERE es CRÍTICO
 
 **Practica:**
+
 ```visualbasic
 ' Selecciona una fila en el DataGridView
 ' Modifica un campo
@@ -814,11 +815,13 @@ End If
 **Archivo:** AdminMenu.vb → Función: `btnEliminarA_Click()`
 
 **Aprenderás:**
+
 - Cómo usar DELETE con WHERE
 - El peligro de DELETE sin WHERE
 - Validar selección antes de eliminar
 
 **Practica:**
+
 ```visualbasic
 ' Selecciona una fila
 ' Intenta eliminarla
@@ -832,11 +835,13 @@ End If
 **Archivo:** LoginForm.vb → Función: `btnLogin_Click()`
 
 **Aprenderás:**
+
 - Cómo buscar registros con 2 condiciones (AND)
 - Qué es ExecuteScalar()
 - Cómo validar con IsNot Nothing
 
 **Practica:**
+
 ```visualbasic
 ' Intenta hacer login con credenciales válidas
 ' Intenta con credenciales inválidas
@@ -850,12 +855,14 @@ End If
 **Archivo:** RegisterForm.vb → Función: `btnCrearCuenta_Click()`
 
 **Aprenderás:**
+
 - Qué es COUNT(*)
 - Cómo usar ExecuteScalar() para obtener un número
 - Cómo CInt() convierte tipos
 - Cómo Return sale del método
 
 **Practica:**
+
 ```visualbasic
 ' Intenta registrar 4 usuarios
 ' En el 5º intento, verifica mensaje "Capacidad completa"
@@ -869,11 +876,13 @@ End If
 **Lee:** Sección "10 Patrones Comunes" de esta guía
 
 **Aprenderás:**
+
 - 10 soluciones reutilizables
 - Código listo para copiar-pegar
 - Cuándo usar cada patrón
 
 **Practica:**
+
 ```visualbasic
 ' Elige un patrón que necesites
 ' Copia el código
@@ -888,11 +897,13 @@ End If
 **Lee:** Sección "Comparativa: Buenos vs Malos Patrones"
 
 **Aprenderás:**
+
 - Qué NO hacer (MALO)
 - Cómo hacerlo bien (✓ BUENO)
 - Por qué importa cada detalle
 
 **Refleja:**
+
 ```
 ¿Estoy haciendo alguno de los errores mencionados?
 ¿Puedo mejorar mi código actual?
@@ -921,6 +932,7 @@ Funciones:
 ```
 
 **Implementa:**
+
 - ✓ SELECT para listar
 - ✓ INSERT para agregar
 - ✓ UPDATE para completar
@@ -1100,6 +1112,7 @@ End Using
 ```
 
 **Ventajas:**
+
 - ✓ Una línea de código para cargar tabla completa
 - ✓ DataGridView se actualiza automáticamente
 - ✓ Soporta búsqueda, ordenamiento, etc.
@@ -1355,110 +1368,110 @@ End If
 
 ### Base de Datos
 
-| Término | Definición |
-|---------|-----------|
-| **BD / Base de Datos** | Colección organizada de datos. Ej: Tu zoo |
-| **Tabla** | Estructura rectangular de datos. Ej: tabla "animales" |
-| **Fila / Registro** | Un conjunto de datos relacionados. Ej: un animal específico |
-| **Columna / Campo** | Un tipo de dato específico. Ej: nombre del animal |
-| **ID / Primary Key** | Número único que identifica cada registro |
-| **Índice** | Acelera búsquedas en una columna |
-| **Relación** | Conexión entre tablas. Ej: un animal pertenece a una categoría |
-| **Foreign Key** | Campo que conecta a otro ID en otra tabla |
+| Término                | Definición                                                     |
+| ---------------------- | -------------------------------------------------------------- |
+| **BD / Base de Datos** | Colección organizada de datos. Ej: Tu zoo                      |
+| **Tabla**              | Estructura rectangular de datos. Ej: tabla "animales"          |
+| **Fila / Registro**    | Un conjunto de datos relacionados. Ej: un animal específico    |
+| **Columna / Campo**    | Un tipo de dato específico. Ej: nombre del animal              |
+| **ID / Primary Key**   | Número único que identifica cada registro                      |
+| **Índice**             | Acelera búsquedas en una columna                               |
+| **Relación**           | Conexión entre tablas. Ej: un animal pertenece a una categoría |
+| **Foreign Key**        | Campo que conecta a otro ID en otra tabla                      |
 
 ### SQL
 
-| Término | Definición |
-|---------|-----------|
-| **SQL** | Lenguaje para hablar con bases de datos |
-| **Query / Consulta** | Comando SQL que ejecutamos |
-| **SELECT** | Traer datos de la BD. Ej: `SELECT nombre FROM animales` |
-| **INSERT** | Agregar nuevo registro. Ej: `INSERT INTO animales VALUES (...)` |
-| **UPDATE** | Modificar datos. Ej: `UPDATE animales SET nombre='Leo' WHERE...` |
-| **DELETE** | Borrar registro. Ej: `DELETE FROM animales WHERE...` |
-| **WHERE** | Condición para filtrar. Ej: `WHERE id=5` |
-| **AND** | Ambas condiciones deben ser verdaderas. Ej: `WHERE edad > 5 AND nombre='Leo'` |
-| **OR** | Al menos una debe ser verdadera. Ej: `WHERE edad > 5 OR nombre='Leo'` |
-| **COUNT** | Contar registros. Ej: `SELECT COUNT(*) FROM animales` |
-| **SUM** | Sumar valores. Ej: `SELECT SUM(precio) FROM animales` |
-| **MAX / MIN** | Máximo / mínimo. Ej: `SELECT MAX(edad) FROM animales` |
+| Término              | Definición                                                                    |
+| -------------------- | ----------------------------------------------------------------------------- |
+| **SQL**              | Lenguaje para hablar con bases de datos                                       |
+| **Query / Consulta** | Comando SQL que ejecutamos                                                    |
+| **SELECT**           | Traer datos de la BD. Ej: `SELECT nombre FROM animales`                       |
+| **INSERT**           | Agregar nuevo registro. Ej: `INSERT INTO animales VALUES (...)`               |
+| **UPDATE**           | Modificar datos. Ej: `UPDATE animales SET nombre='Leo' WHERE...`              |
+| **DELETE**           | Borrar registro. Ej: `DELETE FROM animales WHERE...`                          |
+| **WHERE**            | Condición para filtrar. Ej: `WHERE id=5`                                      |
+| **AND**              | Ambas condiciones deben ser verdaderas. Ej: `WHERE edad > 5 AND nombre='Leo'` |
+| **OR**               | Al menos una debe ser verdadera. Ej: `WHERE edad > 5 OR nombre='Leo'`         |
+| **COUNT**            | Contar registros. Ej: `SELECT COUNT(*) FROM animales`                         |
+| **SUM**              | Sumar valores. Ej: `SELECT SUM(precio) FROM animales`                         |
+| **MAX / MIN**        | Máximo / mínimo. Ej: `SELECT MAX(edad) FROM animales`                         |
 
 ### Visual Basic .NET
 
-| Término | Definición |
-|---------|-----------|
-| **Método** | Una acción que un objeto puede hacer. Ej: `cmd.ExecuteNonQuery()` |
-| **Propiedad** | Una característica de un objeto. Ej: `conn.ConnectionString` |
-| **Parámetro** | Entrada que acepta un método. Ej: `AddWithValue("@nombre", valor)` |
+| Término       | Definición                                                                |
+| ------------- | ------------------------------------------------------------------------- |
+| **Método**    | Una acción que un objeto puede hacer. Ej: `cmd.ExecuteNonQuery()`         |
+| **Propiedad** | Una característica de un objeto. Ej: `conn.ConnectionString`              |
+| **Parámetro** | Entrada que acepta un método. Ej: `AddWithValue("@nombre", valor)`        |
 | **Argumento** | El valor específico que pasas. Ej: `"Leo"` en `AddWithValue("@n", "Leo")` |
-| **Variable** | Contenedor para guardar un valor. Ej: `Dim nombre As String` |
-| **Constante** | Valor que no cambia. Ej: `Const LIMITE = 5` |
-| **Clase** | Plantilla para crear objetos. Ej: `MySqlConnection` |
-| **Objeto** | Instancia de una clase. Ej: `cmd` es un `MySqlCommand` |
-| **Namespace** | Carpeta virtual de clases. Ej: `MySql.Data.MySqlClient` |
-| **Using** | Cierra automáticamente recursos |
-| **Evento** | Algo que sucede. Ej: `btnLogin_Click()` |
-| **Handler** | Función que se ejecuta cuando ocurre evento. Ej: `Handles btnLogin.Click` |
+| **Variable**  | Contenedor para guardar un valor. Ej: `Dim nombre As String`              |
+| **Constante** | Valor que no cambia. Ej: `Const LIMITE = 5`                               |
+| **Clase**     | Plantilla para crear objetos. Ej: `MySqlConnection`                       |
+| **Objeto**    | Instancia de una clase. Ej: `cmd` es un `MySqlCommand`                    |
+| **Namespace** | Carpeta virtual de clases. Ej: `MySql.Data.MySqlClient`                   |
+| **Using**     | Cierra automáticamente recursos                                           |
+| **Evento**    | Algo que sucede. Ej: `btnLogin_Click()`                                   |
+| **Handler**   | Función que se ejecuta cuando ocurre evento. Ej: `Handles btnLogin.Click` |
 
 ### Métodos de Ejecución
 
-| Método | Uso | Devuelve |
-|--------|-----|----------|
-| **ExecuteNonQuery()** | INSERT, UPDATE, DELETE | Filas afectadas |
-| **ExecuteScalar()** | SELECT (1 valor) | Ese valor o Nothing |
-| **ExecuteReader()** | SELECT (múltiples) | DataReader |
-| **DataAdapter.Fill()** | SELECT (tabla) | DataTable |
+| Método                 | Uso                    | Devuelve            |
+| ---------------------- | ---------------------- | ------------------- |
+| **ExecuteNonQuery()**  | INSERT, UPDATE, DELETE | Filas afectadas     |
+| **ExecuteScalar()**    | SELECT (1 valor)       | Ese valor o Nothing |
+| **ExecuteReader()**    | SELECT (múltiples)     | DataReader          |
+| **DataAdapter.Fill()** | SELECT (tabla)         | DataTable           |
 
 ### DataGridView
 
-| Término | Definición |
-|---------|-----------|
-| **DataGridView** | Control para mostrar tablas en Windows Forms |
+| Término          | Definición                                            |
+| ---------------- | ----------------------------------------------------- |
+| **DataGridView** | Control para mostrar tablas en Windows Forms          |
 | **SelectedRows** | Filas que el usuario marcó. Ej: `dgv.SelectedRows(0)` |
-| **Cells** | Campos en una fila. Ej: `row.Cells("nombre").Value` |
-| **DataSource** | La tabla que se muestra. Ej: `dgv.DataSource = dt` |
-| **DataTable** | Tabla en memoria (no en BD) |
+| **Cells**        | Campos en una fila. Ej: `row.Cells("nombre").Value`   |
+| **DataSource**   | La tabla que se muestra. Ej: `dgv.DataSource = dt`    |
+| **DataTable**    | Tabla en memoria (no en BD)                           |
 
 ### Seguridad
 
-| Término | Definición |
-|---------|-----------|
+| Término           | Definición                                                |
+| ----------------- | --------------------------------------------------------- |
 | **SQL Injection** | Ataque ingresando código SQL malicioso. Ej: `' OR '1'='1` |
-| **Parámetro** | Forma segura de pasar valores. Ej: `@user`, `@pass` |
-| **Validación** | Verificar que datos sean correctos |
-| **Encriptación** | Transformar datos para que sean ilegibles |
-| **Hash** | Transformación irreversible. Ej: SHA256, MD5 |
+| **Parámetro**     | Forma segura de pasar valores. Ej: `@user`, `@pass`       |
+| **Validación**    | Verificar que datos sean correctos                        |
+| **Encriptación**  | Transformar datos para que sean ilegibles                 |
+| **Hash**          | Transformación irreversible. Ej: SHA256, MD5              |
 
 ### Control de Flujo
 
-| Término | Definición |
-|---------|-----------|
-| **Return** | Salir del método anticipadamente |
-| **If / Then / Else** | Decisión condicional |
-| **While / Loop** | Repetir mientras algo es verdadero |
-| **For / Next** | Repetir N veces |
-| **IsNot Nothing** | Verificar que algo NO es vacío/nulo |
+| Término              | Definición                          |
+| -------------------- | ----------------------------------- |
+| **Return**           | Salir del método anticipadamente    |
+| **If / Then / Else** | Decisión condicional                |
+| **While / Loop**     | Repetir mientras algo es verdadero  |
+| **For / Next**       | Repetir N veces                     |
+| **IsNot Nothing**    | Verificar que algo NO es vacío/nulo |
 
 ### Tipos de Datos
 
-| Tipo | Ejemplo | SQL |
-|------|---------|-----|
-| **String** | `"Leonardo"` | VARCHAR, TEXT |
-| **Integer** | `42` | INT, BIGINT |
-| **Decimal** | `19.99` | DECIMAL, DOUBLE |
-| **Boolean** | `True`, `False` | BIT, BOOLEAN |
-| **DateTime** | `Now`, `2024-01-15` | DATE, DATETIME |
-| **Object** | Cualquier cosa | - |
+| Tipo         | Ejemplo             | SQL             |
+| ------------ | ------------------- | --------------- |
+| **String**   | `"Leonardo"`        | VARCHAR, TEXT   |
+| **Integer**  | `42`                | INT, BIGINT     |
+| **Decimal**  | `19.99`             | DECIMAL, DOUBLE |
+| **Boolean**  | `True`, `False`     | BIT, BOOLEAN    |
+| **DateTime** | `Now`, `2024-01-15` | DATE, DATETIME  |
+| **Object**   | Cualquier cosa      | -               |
 
 ### Conversiones
 
-| Función | Ejemplo |
-|---------|---------|
-| **CInt()** | `CInt("5")` = `5` |
-| **CDec()** | `CDec("19.99")` = `19.99` |
-| **CStr()** | `CStr(42)` = `"42"` |
-| **.ToString()** | `42.ToString()` = `"42"` |
-| **TryParse()** | `Integer.TryParse("5", numero)` |
+| Función         | Ejemplo                         |
+| --------------- | ------------------------------- |
+| **CInt()**      | `CInt("5")` = `5`               |
+| **CDec()**      | `CDec("19.99")` = `19.99`       |
+| **CStr()**      | `CStr(42)` = `"42"`             |
+| **.ToString()** | `42.ToString()` = `"42"`        |
+| **TryParse()**  | `Integer.TryParse("5", numero)` |
 
 ---
 
@@ -1499,16 +1512,16 @@ End If
 
 ### Contenido Creado
 
-| Métrica | Cantidad |
-|---------|----------|
-| Archivos .VB comentados | 3 |
-| Líneas de comentarios | 370+ |
-| Archivos de guía | 10 (consolidados en 1 .md) |
-| Ejemplos de código | 15+ |
-| Patrones reutilizables | 10 |
-| Términos definidos | 100+ |
-| Comparativas bueno/malo | 10 |
-| Secciones teóricas | 15+ |
+| Métrica                 | Cantidad                   |
+| ----------------------- | -------------------------- |
+| Archivos .VB comentados | 3                          |
+| Líneas de comentarios   | 370+                       |
+| Archivos de guía        | 10 (consolidados en 1 .md) |
+| Ejemplos de código      | 15+                        |
+| Patrones reutilizables  | 10                         |
+| Términos definidos      | 100+                       |
+| Comparativas bueno/malo | 10                         |
+| Secciones teóricas      | 15+                        |
 
 ### Cobertura de Conceptos
 
@@ -1529,16 +1542,16 @@ End If
 
 ### Tiempo de Aprendizaje
 
-| Actividad | Tiempo |
-|-----------|--------|
-| Lectura inicial | 15 min |
-| Teoría completa | 30 min |
-| Código comentado | 30 min |
-| Patrones | 20 min |
-| Errores comunes | 15 min |
-| Consultas variadas | 30 min |
-| Práctica | 1-2 horas |
-| **TOTAL** | **3-4 horas** |
+| Actividad          | Tiempo        |
+| ------------------ | ------------- |
+| Lectura inicial    | 15 min        |
+| Teoría completa    | 30 min        |
+| Código comentado   | 30 min        |
+| Patrones           | 20 min        |
+| Errores comunes    | 15 min        |
+| Consultas variadas | 30 min        |
+| Práctica           | 1-2 horas     |
+| **TOTAL**          | **3-4 horas** |
 
 **Si estudias 1-2 horas diarias:** Dominarás todo en una semana.
 
@@ -1566,24 +1579,28 @@ Al completar esta guía, podrás:
 Una vez domines esto, puedes aprender:
 
 ### Avanzado de SQL
+
 - JOINs (unir múltiples tablas)
 - GROUP BY (agrupar resultados)
 - Subconsultas
 - Vistas (Views)
 
 ### Avanzado de VB.NET
+
 - Try/Catch (manejo de excepciones)
 - Async/Await (programación asíncrona)
 - Entity Framework (ORM moderno)
 - LINQ to SQL
 
 ### Seguridad
+
 - Encriptación de contraseñas
 - Validación de entrada
 - Autorización y permisos
 - Auditoría de cambios
 
 ### Rendimiento
+
 - Índices en BD
 - Caché en aplicación
 - Procedimientos almacenados
@@ -1613,32 +1630,38 @@ Una vez domines esto, puedes aprender:
 ### Para Principiantes
 
 1. **No intentes aprender TODO a la vez**
+   
    - Lee UNA sección
    - Luego PRACTICA
    - Repite
 
 2. **Escribe código constantemente**
+   
    - Los errores son tus mejores maestros
    - Comete errores a propósito
    - Corrige y aprende
 
 3. **Explica a otros**
+   
    - La mejor manera de aprender es enseñar
    - Verifica tu entendimiento explicando conceptos
 
 ### Para Docentes
 
 1. **Usa los comentarios en código como base**
+   
    - Proyecta los archivos .VB
    - Trabaja línea por línea
    - Pide que los estudiantes copien
 
 2. **Haz que repliquen y modifiquen**
+   
    - Primero: copiar código
    - Segundo: modificar para su proyecto
    - Tercero: crear algo nuevo
 
 3. **Evalúa la seguridad**
+   
    - ¿Usan parámetros?
    - ¿Incluyen WHERE?
    - ¿Validan datos?
@@ -1678,13 +1701,17 @@ Has recibido un conjunto completo de recursos educativos diseñados para:
 ## Referencias Rápidas
 
 ### ¿No entiendes un término?
+
 → Busca en la sección "Glosario Completo"
 
 ### ¿Necesitas código?
+
 → Busca en la sección "10 Patrones Comunes"
 
 ### ¿Algo parece incorrecto?
+
 → Consulta "Comparativa: Buenos vs Malos Patrones"
 
 ### ¿No sabes por dónde empezar?
+
 → Lee "Cómo Empezar (11 Pasos)"
