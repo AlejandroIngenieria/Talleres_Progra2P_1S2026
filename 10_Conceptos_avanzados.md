@@ -48,7 +48,7 @@ CREATE TABLE detalle_cuidados (
 
 -- 5. Tabla de Recintos (Equivalente a despacho_cuadricula)
 CREATE TABLE recintos_mapa (
-    id_recinto INT PRIMARY KEY, -- ID del 1 al 12
+    id_recinto INT PRIMARY KEY,
     id_animal INT UNIQUE NULL,
     estado_limpieza VARCHAR(20) NOT NULL, -- 'Limpio' / 'Sucio'
     ultima_inspeccion DATETIME,
