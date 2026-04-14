@@ -1,5 +1,61 @@
 Esta guía técnica aplica los conceptos de **SQL Avanzado** vistos en clase  directamente a tu base de datos `ZooManagement`. Utiliza estos comandos para manipular, consultar y optimizar la información de tu sistema de gestión.
 
+# Script de la base de datos
+
+```sql
+CREATE DATABASE IF NOT EXISTS ZooManagement;
+USE ZooManagement;
+
+-- 1. Tabla de Personal (Equivalente a usuarios)
+CREATE TABLE personal_zoo (
+    id_personal INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    rol VARCHAR(20) NOT NULL, -- 'Admin' o 'Cuidador'
+    nombre_completo VARCHAR(100) NOT NULL
+);
+
+-- 2. Tabla de Animales (Equivalente a productos)
+CREATE TABLE animales (
+    id_animal INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    especie VARCHAR(100) NOT NULL,
+    precio_mantenimiento DECIMAL(10,2) NOT NULL,
+    salud_puntos INT NOT null, -- Validar estado antes de asignar
+    image_url Text
+);
+
+-- 3. Tabla de Bitácora (Equivalente a pedidos)
+CREATE TABLE bitacora_cuidados (
+    id_bitacora INT AUTO_INCREMENT PRIMARY KEY,
+    id_personal INT NOT NULL,
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    costo_total_insumos DECIMAL(10,2) NOT NULL,
+    tipo_actividad VARCHAR(50) NOT NULL, -- 'Alimentación', 'Medicina', etc.
+    FOREIGN KEY (id_personal) REFERENCES personal_zoo(id_personal)
+);
+
+-- 4. Tabla de Detalle (Equivalente a detalle_pedido)
+CREATE TABLE detalle_cuidados (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_bitacora INT NOT NULL,
+    id_animal INT NOT NULL,
+    cantidad_alimento INT NOT NULL,
+    subtotal_insumos DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (id_bitacora) REFERENCES bitacora_cuidados(id_bitacora),
+    FOREIGN KEY (id_animal) REFERENCES animales(id_animal)
+);
+
+-- 5. Tabla de Recintos (Equivalente a despacho_cuadricula)
+CREATE TABLE recintos_mapa (
+    id_recinto INT PRIMARY KEY, -- ID del 1 al 12
+    id_animal INT UNIQUE NULL,
+    estado_limpieza VARCHAR(20) NOT NULL, -- 'Limpio' / 'Sucio'
+    ultima_inspeccion DATETIME,
+    FOREIGN KEY (id_animal) REFERENCES animales(id_animal)
+);
+```
+
 ---
 
 ## 1. DML: Manipulación de Datos (CRUD)
